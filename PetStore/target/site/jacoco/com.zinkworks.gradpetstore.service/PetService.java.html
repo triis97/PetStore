@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pet-store</a> &gt; <a href="index.source.html" class="el_package">com.zinkworks.gradpetstore.service</a> &gt; <span class="el_source">PetService.java</span></div><h1>PetService.java</h1><pre class="source lang-java linenums">package com.zinkworks.gradpetstore.service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zinkworks.gradpetstore.dto.PetDTO;
+import com.zinkworks.gradpetstore.exceptions.PetNotFoundException;
+import com.zinkworks.gradpetstore.mapper.PetMapper;
+import com.zinkworks.gradpetstore.model.Pet;
+import com.zinkworks.gradpetstore.repository.PetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+<span class="fc" id="L16">public class PetService implements IPetService {</span>
+    @Autowired
+    PetRepository petRepository;
+
+<span class="fc" id="L20">    private ObjectMapper objectMapper = new ObjectMapper();</span>
+
+    @Override
+    public Long createPet(PetDTO pet) {
+<span class="fc" id="L24">        return petRepository.save(PetMapper.toPet(pet)).getId();</span>
+    }
+
+    @Override
+    public List&lt;PetDTO&gt; getAllPets() {
+
+<span class="fc" id="L30">        return petRepository.findAll().stream().map(PetMapper::toPetDTO).collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public PetDTO getPetById(Long id) throws PetNotFoundException {
+<span class="nc" id="L35">        Pet pet = petRepository.findById(id).orElseThrow(() -&gt; {</span>
+            //TODO log here
+<span class="nc" id="L37">            return new PetNotFoundException(&quot;Unable to find a pet with that id&quot;);</span>
+        });
+<span class="nc" id="L39">        return PetMapper.toPetDTO(pet);</span>
+    }
+
+    @Override
+    public List&lt;PetDTO&gt; getByShortName() {
+<span class="nc" id="L44">        return petRepository.findByShortName().stream().map(PetMapper::toPetDTO).collect(Collectors.toList());</span>
+    }
+
+
+    @Override
+    public PetDTO updatePet(long id, PetDTO pet) throws PetNotFoundException {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (!petRepository.existsById(id)) {</span>
+<span class="nc" id="L51">            throw new PetNotFoundException(&quot;The id you are trying to update is not present&quot;);</span>
+        }
+
+<span class="nc" id="L54">        Pet petUpdated = PetMapper.toPet(pet);</span>
+<span class="nc" id="L55">        petUpdated.setId(id);</span>
+
+<span class="nc" id="L57">        return PetMapper.toPetDTO(petRepository.save(petUpdated));</span>
+    }
+
+    @Override
+    public void deletePet(Long id) throws PetNotFoundException {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (!petRepository.existsById(id)) {</span>
+<span class="nc" id="L63">            throw new PetNotFoundException(&quot;The id you are trying to delete is not present&quot;);</span>
+        }
+<span class="nc" id="L65">        petRepository.deleteById(id);</span>
+<span class="nc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

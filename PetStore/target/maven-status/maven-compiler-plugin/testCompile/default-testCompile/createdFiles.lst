@@ -1,0 +1,4 @@
+com/zinkworks/gradpetstore/repository/PetRepositoryTest.class
+com/zinkworks/gradpetstore/service/PetServiceTest.class
+com/zinkworks/gradpetstore/controller/PetControllerTest.class
+com/zinkworks/gradpetstore/utils/TestUtils.class

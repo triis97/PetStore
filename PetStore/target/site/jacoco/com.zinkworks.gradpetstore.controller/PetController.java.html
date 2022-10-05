@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pet-store</a> &gt; <a href="index.source.html" class="el_package">com.zinkworks.gradpetstore.controller</a> &gt; <span class="el_source">PetController.java</span></div><h1>PetController.java</h1><pre class="source lang-java linenums">package com.zinkworks.gradpetstore.controller;
+
+import com.zinkworks.gradpetstore.dto.ErrorDTO;
+import com.zinkworks.gradpetstore.dto.PetDTO;
+import com.zinkworks.gradpetstore.dto.ResponseDTO;
+import com.zinkworks.gradpetstore.exceptions.PetNotFoundException;
+import com.zinkworks.gradpetstore.service.IPetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.websocket.server.PathParam;
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api&quot;)
+<span class="fc" id="L27">public class PetController {</span>
+
+    @Autowired
+    private IPetService petService;
+
+    @GetMapping(&quot;/pets&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; getAllPets() {
+        try {
+<span class="nc" id="L35">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L36">                    ResponseDTO.builder()</span>
+<span class="nc" id="L37">                            .response(petService.getAllPets()).build(),</span>
+                    HttpStatus.OK);
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc" id="L40">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L41">                    ResponseDTO.builder()</span>
+<span class="nc" id="L42">                             .response(ErrorDTO.builder().message(e.getMessage()).build()).build(),</span>
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; getById(@PathVariable(&quot;id&quot;) long id) {
+
+        try {
+<span class="fc" id="L51">            return new ResponseEntity&lt;&gt;(</span>
+<span class="fc" id="L52">                    ResponseDTO.builder()</span>
+<span class="fc" id="L53">                            .response(petService.getPetById(id)).build(),</span>
+                    HttpStatus.OK);
+<span class="fc" id="L55">        } catch (PetNotFoundException e) {</span>
+<span class="fc" id="L56">            return new ResponseEntity&lt;&gt;(ResponseDTO.builder()</span>
+<span class="fc" id="L57">                     .response(ErrorDTO.builder().message(e.getMessage()).build()).build(), HttpStatus.INTERNAL_SERVER_ERROR);</span>
+        }
+    }
+
+    @GetMapping(&quot;/pets/shortname&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; getAllPetsWithShortName() {
+        try {
+<span class="nc" id="L64">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L65">                    ResponseDTO.builder()</span>
+<span class="nc" id="L66">                            .response(petService.getByShortName())</span>
+<span class="nc" id="L67">                            .build(),</span>
+                    HttpStatus.OK);
+<span class="nc" id="L69">        } catch (Exception e) {</span>
+<span class="nc" id="L70">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L71">                    ResponseDTO.builder()</span>
+<span class="nc" id="L72">                             .response(ErrorDTO.builder().message(e.getMessage()).build()).build(),</span>
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(&quot;/pets&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; createPet(@RequestBody PetDTO pet) {
+        try {
+<span class="fc" id="L80">            Long id = petService.createPet(pet);</span>
+<span class="fc" id="L81">            MultiValueMap&lt;String, String&gt; headers = new HttpHeaders();</span>
+<span class="fc" id="L82">            headers.add(&quot;PetId&quot;, id.toString());</span>
+<span class="fc" id="L83">            return new ResponseEntity&lt;&gt;(</span>
+<span class="fc" id="L84">                    ResponseDTO.builder()</span>
+<span class="fc" id="L85">                            .response(pet).build(),</span>
+                    headers,
+                    HttpStatus.CREATED);
+<span class="nc" id="L88">        } catch (Exception e) {</span>
+<span class="nc" id="L89">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L90">                    ResponseDTO.builder()</span>
+<span class="nc" id="L91">                             .response(ErrorDTO.builder().message(e.getMessage()).build()).build(),</span>
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @PutMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; updatePet(@PathVariable(&quot;id&quot;) long id, @RequestBody PetDTO pet) {
+        try {
+<span class="nc" id="L100">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L101">                    ResponseDTO.builder()</span>
+<span class="nc" id="L102">                            .response(petService.updatePet(id, pet)).build(),</span>
+                    HttpStatus.OK
+            );
+<span class="nc" id="L105">        } catch (Exception e) {</span>
+<span class="nc" id="L106">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L107">                    ResponseDTO.builder()</span>
+<span class="nc" id="L108">                             .response(ErrorDTO.builder().message(e.getMessage()).build()).build(),</span>
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @DeleteMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;ResponseDTO&gt; deletePet(@PathVariable(&quot;id&quot;) long id) {
+        try {
+<span class="nc" id="L117">            PetDTO pet = petService.getPetById(id);</span>
+<span class="nc" id="L118">            petService.deletePet(id);</span>
+<span class="nc" id="L119">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L120">                    ResponseDTO.builder()</span>
+<span class="nc" id="L121">                            .response(pet).build(),</span>
+                    HttpStatus.OK
+            );
+<span class="nc" id="L124">        } catch (Exception e) {</span>
+<span class="nc" id="L125">            return new ResponseEntity&lt;&gt;(</span>
+<span class="nc" id="L126">                    ResponseDTO.builder()</span>
+<span class="nc" id="L127">                            .response(ErrorDTO.builder().message(e.getMessage()).build()).build(),</span>
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
