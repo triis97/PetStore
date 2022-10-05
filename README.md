@@ -160,7 +160,7 @@ For data storage we are going to use an in-memory DB.
 
 ### Postman Collection
 
-- Find collection of calls that can be used in Postman in src/main/resources
+- Find collection of calls that can be used in Postman in ./PetStore/src/main/resources
 
 ### Useful links
 
@@ -168,6 +168,10 @@ For data storage we are going to use an in-memory DB.
 - [@Autowire Dependency Injection](https://www.baeldung.com/spring-autowire)
 - [Dto Pattern](https://www.baeldung.com/java-dto-pattern)
 - [JPA documentation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories)
+- [Docker](https://docs.docker.com/get-started/)
+- [docke-compose](https://docs.docker.com/compose/)
+- [Spring Boot testing](https://www.baeldung.com/spring-boot-testing)
+- [Karate](https://github.com/karatelabs/karate)
 
 
 
