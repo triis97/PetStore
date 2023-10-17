@@ -1,6 +1,5 @@
 package com.zinkworks.gradpetstore.service;
 
-import com.zinkworks.gradpetstore.dto.PetDTO;
 import com.zinkworks.gradpetstore.exceptions.PetNotFoundException;
 import com.zinkworks.gradpetstore.model.Pet;
 
@@ -8,15 +7,16 @@ import java.util.List;
 
 public interface IPetService {
 
-    List<PetDTO> getAllPets();
+    List<Pet> getAllPets();
 
-    PetDTO getPetById(Long id) throws PetNotFoundException;
+    Pet getPetById(Long id) throws PetNotFoundException;
 
-    List<PetDTO> getByShortName() throws PetNotFoundException;
+    List<Pet> getByStatus(Pet.Status status) throws PetNotFoundException;
+    List<Pet> getByTag(String tag) throws PetNotFoundException;
 
-    Long createPet(PetDTO pet);
+    Long createPet(Pet pet);
 
-    PetDTO updatePet(long id, PetDTO pet) throws PetNotFoundException;
+    Pet updatePet(Pet pet) throws PetNotFoundException;
 
     void deletePet(Long id) throws PetNotFoundException;
 

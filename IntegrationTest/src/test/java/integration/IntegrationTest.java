@@ -12,7 +12,7 @@ public class IntegrationTest {
     void testParallel() {
         final Results results = Runner.path("classpath:integration/tests")
                 .outputCucumberJson(true)
-                .parallel(10);
+                .parallel(1);
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 

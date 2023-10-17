@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Karate Timeline</title>
+    <style>
+      body, html { font-family: arial, sans-serif; font-size: 11pt; }
+      #visualization { box-sizing: border-box; width: 100%; height: 300px; }
+      .vis-item.failed { background-color: #F2928C; }
+      .page-heading { padding: 0.5em; margin-bottom: 0.5em; background-color: lightcyan; border: 1px solid gray; }
+    </style>
+    <script src="res/vis.min.js"></script>
+    <link href="res/vis.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="page-heading">
+      <a href="karate-summary.html">Summary</a>
+    </div>     
+    <div id="visualization"></div>
+    <script>
+var groups = [{"content":"main","id":1}];
+var items = [{"id":1,"group":1,"content":"integration\/tests\/GenAiTest[1:6]","start":1697285140839,"end":1697285142143,"title":"integration\/tests\/GenAiTest[1:6] 13:05:40.839-13:05:42.143 Add a new pet to the store"},{"id":2,"group":1,"content":"integration\/tests\/GenAiTest[2:13]","start":1697285142155,"end":1697285142345,"title":"integration\/tests\/GenAiTest[2:13] 13:05:42.155-13:05:42.345 Update an existing pet"},{"id":3,"group":1,"content":"integration\/tests\/GenAiTest[3:20]","start":1697285142356,"end":1697285142452,"title":"integration\/tests\/GenAiTest[3:20] 13:05:42.356-13:05:42.452 Finds Pets by status"},{"id":4,"group":1,"content":"integration\/tests\/GenAiTest[4:28]","start":1697285142466,"end":1697285142545,"title":"integration\/tests\/GenAiTest[4:28] 13:05:42.466-13:05:42.545 Finds Pets by tags"},{"id":5,"group":1,"content":"integration\/tests\/GenAiTest[5:36]","start":1697285142780,"end":1697285143084,"title":"integration\/tests\/GenAiTest[5:36] 13:05:42.780-13:05:43.084 Find pet by ID"},{"id":6,"group":1,"content":"integration\/tests\/GenAiTest[6:43]","start":1697285143097,"end":1697285143252,"title":"integration\/tests\/GenAiTest[6:43] 13:05:43.097-13:05:43.252 Deletes a pet"}];
+</script>
+    <script>
+      var container = document.getElementById('visualization');
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions({groupOrder: 'content'});
+      timeline.setGroups(new vis.DataSet(groups));
+      timeline.setItems(new vis.DataSet(items));
+    </script>
+  </body>
+</html>

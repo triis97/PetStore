@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Karate Timeline</title>
+    <style>
+      body, html { font-family: arial, sans-serif; font-size: 11pt; }
+      #visualization { box-sizing: border-box; width: 100%; height: 300px; }
+      .vis-item.failed { background-color: #F2928C; }
+      .page-heading { padding: 0.5em; margin-bottom: 0.5em; background-color: lightcyan; border: 1px solid gray; }
+    </style>
+    <script src="res/vis.min.js"></script>
+    <link href="res/vis.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="page-heading">
+      <a href="karate-summary.html">Summary</a>
+    </div>     
+    <div id="visualization"></div>
+    <script>
+var groups = [{"content":"main","id":1}];
+var items = [{"id":1,"group":1,"content":"integration\/tests\/GenAiTest[1:7]","start":1697283475791,"end":1697283476012,"title":"integration\/tests\/GenAiTest[1:7] 12:37:55.791-12:37:56.012 Add a new pet to the store","className":"failed"},{"id":2,"group":1,"content":"integration\/tests\/GenAiTest[2:14]","start":1697283476029,"end":1697283476031,"title":"integration\/tests\/GenAiTest[2:14] 12:37:56.029-12:37:56.031 Update an existing pet","className":"failed"},{"id":3,"group":1,"content":"integration\/tests\/GenAiTest[3:21]","start":1697283476045,"end":1697283476048,"title":"integration\/tests\/GenAiTest[3:21] 12:37:56.045-12:37:56.048 Finds Pets by status","className":"failed"},{"id":4,"group":1,"content":"integration\/tests\/GenAiTest[4:29]","start":1697283476062,"end":1697283476065,"title":"integration\/tests\/GenAiTest[4:29] 12:37:56.062-12:37:56.065 Finds Pets by tags","className":"failed"},{"id":5,"group":1,"content":"integration\/tests\/GenAiTest[5:37]","start":1697283476077,"end":1697283476079,"title":"integration\/tests\/GenAiTest[5:37] 12:37:56.077-12:37:56.079 Find pet by ID","className":"failed"},{"id":6,"group":1,"content":"integration\/tests\/GenAiTest[6:44]","start":1697283476092,"end":1697283476095,"title":"integration\/tests\/GenAiTest[6:44] 12:37:56.092-12:37:56.095 Deletes a pet","className":"failed"}];
+</script>
+    <script>
+      var container = document.getElementById('visualization');
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions({groupOrder: 'content'});
+      timeline.setGroups(new vis.DataSet(groups));
+      timeline.setItems(new vis.DataSet(items));
+    </script>
+  </body>
+</html>
